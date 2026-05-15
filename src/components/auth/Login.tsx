@@ -83,7 +83,7 @@ export const Login: React.FC<LoginProps> = ({ onLogin }) => {
               animate={{ opacity: 1, y: 0 }}
               className="space-y-8"
             >
-              <h1 className="text-7xl md:text-9xl font-sora font-black tracking-tighter leading-[0.9] text-white">
+              <h1 className="text-4xl md:text-9xl font-sora font-black tracking-tighter leading-[0.9] text-white">
                 Simple.<br />
                 <span className="text-curamind-green">Safe.</span><br />
                 Shared.
@@ -110,13 +110,13 @@ export const Login: React.FC<LoginProps> = ({ onLogin }) => {
           <motion.div 
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
-            className="p-12 md:p-16 rounded-[64px] bg-white/[0.03] border border-white/10 backdrop-blur-[100px] shadow-[0_50px_100px_rgba(0,0,0,0.5)] space-y-10"
+            className="p-5 md:p-16 rounded-[24px] lg:rounded-[64px] bg-white/[0.03] border border-white/10 backdrop-blur-[100px] shadow-[0_50px_100px_rgba(0,0,0,0.5)] space-y-6 lg:space-y-10"
           >
             <div className="space-y-2">
-               <h2 className="text-4xl font-black tracking-tight text-white">
+                               <h2 className="text-2xl lg:text-4xl font-black tracking-tight text-white">
                  {mode === 'signup' ? 'Create Account' : mode === 'demo' ? 'Quick Demo' : 'Welcome Back'}
                </h2>
-               <p className="text-white/40 font-medium">
+                               <p className="text-xs lg:text-base text-white/40 font-medium">
                  {mode === 'signup' ? 'Verify your email first. We will send you a secure link.' : mode === 'demo' ? 'No account needed. Jump in instantly.' : 'Enter your email and password.'}
                </p>
             </div>
@@ -157,14 +157,14 @@ export const Login: React.FC<LoginProps> = ({ onLogin }) => {
                         key={role.id}
                         type="button"
                         onClick={() => setSelectedRole(role.id as any)}
-                        className={`flex flex-col items-center gap-3 p-6 rounded-[28px] border-2 transition-all ${
+                        className={`flex flex-col items-center gap-2 lg:gap-3 p-4 lg:p-6 rounded-[24px] lg:rounded-[28px] border-2 transition-all ${
                           selectedRole === role.id
-                            ? `bg-curamind-${role.color} border-curamind-${role.color} scale-105 text-white`
+                            ? `bg-curamind-${role.roleColor || role.color} border-curamind-${role.roleColor || role.color} scale-105 text-white`
                             : 'bg-white/5 border-white/5 hover:border-white/15 text-white/40'
                         }`}
                       >
-                        <role.icon className="w-7 h-7" />
-                        <span className="text-[9px] font-black uppercase tracking-widest">{role.label}</span>
+                        <role.icon className="w-5 h-5 lg:w-7 lg:h-7" />
+                        <span className="text-[8px] lg:text-[9px] font-black uppercase tracking-widest">{role.label}</span>
                       </button>
                     ))}
                   </motion.div>
@@ -183,7 +183,7 @@ export const Login: React.FC<LoginProps> = ({ onLogin }) => {
                     value={name}
                     onChange={(e) => setName(e.target.value)}
                     placeholder="Your Full Name"
-                    className="w-full bg-white/5 border border-white/10 rounded-2xl px-8 py-5 text-lg font-bold focus:outline-none focus:border-curamind-green/50 transition-all text-white placeholder:text-white/20"
+                    className="w-full bg-white/5 border border-white/10 rounded-xl lg:rounded-2xl px-6 py-4 lg:px-8 lg:py-5 text-sm lg:text-lg font-bold focus:outline-none focus:border-curamind-green/50 transition-all text-white placeholder:text-white/20"
                   />
                 )}
               </AnimatePresence>
@@ -195,7 +195,7 @@ export const Login: React.FC<LoginProps> = ({ onLogin }) => {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="Email Address"
-                className="w-full bg-white/5 border border-white/10 rounded-2xl px-8 py-5 text-lg font-bold focus:outline-none focus:border-curamind-green/50 transition-all text-white placeholder:text-white/20"
+                className="w-full bg-white/5 border border-white/10 rounded-xl lg:rounded-2xl px-6 py-4 lg:px-8 lg:py-5 text-sm lg:text-lg font-bold focus:outline-none focus:border-curamind-green/50 transition-all text-white placeholder:text-white/20"
               />
 
               {/* Password — only for login mode */}
@@ -211,7 +211,7 @@ export const Login: React.FC<LoginProps> = ({ onLogin }) => {
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     placeholder="Your Password"
-                    className="w-full bg-white/5 border border-white/10 rounded-2xl px-8 py-5 text-lg font-bold focus:outline-none focus:border-curamind-green/50 transition-all text-white placeholder:text-white/20"
+                    className="w-full bg-white/5 border border-white/10 rounded-xl lg:rounded-2xl px-6 py-4 lg:px-8 lg:py-5 text-sm lg:text-lg font-bold focus:outline-none focus:border-curamind-green/50 transition-all text-white placeholder:text-white/20"
                   />
                 )}
               </AnimatePresence>
@@ -219,10 +219,10 @@ export const Login: React.FC<LoginProps> = ({ onLogin }) => {
               <button
                 type="submit"
                 disabled={loading || (mode !== 'login' && !selectedRole)}
-                className="w-full py-6 rounded-[32px] bg-curamind-green text-white font-black text-xl flex items-center justify-center gap-4 shadow-2xl hover:scale-[1.02] active:scale-95 transition-all disabled:opacity-40"
+                className="w-full py-4 lg:py-6 rounded-2xl lg:rounded-[32px] bg-curamind-green text-white font-black text-base lg:text-xl flex items-center justify-center gap-4 shadow-2xl hover:scale-[1.02] active:scale-95 transition-all disabled:opacity-40"
               >
-                {loading ? 'Processing...' : mode === 'signup' ? 'Send Verification Link' : mode === 'demo' ? 'Enter Demo' : 'Log In'}
-                <ArrowRight className="w-6 h-6" />
+                {loading ? 'Processing...' : mode === 'signup' ? 'Send Link' : mode === 'demo' ? 'Enter Demo' : 'Log In'}
+                <ArrowRight className="w-5 h-5 lg:w-6 lg:h-6" />
               </button>
             </form>
           </motion.div>
@@ -246,7 +246,7 @@ export const Login: React.FC<LoginProps> = ({ onLogin }) => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: 0.1 }}
-              className="text-7xl md:text-9xl font-black tracking-tight text-white leading-[0.9]"
+              className="text-5xl md:text-9xl font-black tracking-tight text-white leading-[0.9]"
             >
               How it <br />
               <span className="text-curamind-yellow">helps.</span>
@@ -301,7 +301,7 @@ export const Login: React.FC<LoginProps> = ({ onLogin }) => {
                   viewport={{ once: true, margin: "-100px" }}
                   transition={{ duration: 0.8, delay: card.delay }}
                   whileHover={{ y: -10 }}
-                  className="group relative p-12 rounded-[64px] bg-white/[0.02] border border-white/5 overflow-hidden transition-all duration-500"
+                  className="group relative p-8 lg:p-12 rounded-[48px] lg:rounded-[64px] bg-white/[0.02] border border-white/5 overflow-hidden transition-all duration-500"
                 >
                    {/* Background Glow */}
                    <div className={`absolute top-0 right-0 w-64 h-64 bg-curamind-${card.color}/5 blur-[100px] rounded-full -translate-y-1/2 translate-x-1/2 group-hover:bg-curamind-${card.color}/10 transition-colors`} />
@@ -337,7 +337,7 @@ export const Login: React.FC<LoginProps> = ({ onLogin }) => {
               initial={{ opacity: 0, scale: 0.9 }}
               whileInView={{ opacity: 1, scale: 1 }}
               viewport={{ once: true }}
-              className="text-6xl md:text-9xl font-black text-white tracking-tighter leading-tight"
+              className="text-5xl md:text-9xl font-black text-white tracking-tighter leading-tight"
             >
               Ready to <br />
               <span className="text-curamind-green">start helping?</span>

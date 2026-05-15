@@ -32,30 +32,13 @@ export const SocialStoryGenerator = () => {
     
     const prompt = `Create a short, empathetic Social Story for a child with autism about the following transition or situation: "${topic}". Use simple, direct language. Follow Carol Gray's social story framework (descriptive, perspective, and directive sentences). Keep it warm and encouraging.`;
 
-    // 1. Try Local Gemma 3
-    try {
-      const localResponse = await fetch("http://127.0.0.1:1234/v1/chat/completions", {
-        method: "POST", headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          model: "local-model",
-          messages: [{ role: "user", content: prompt }]
-        })
-      });
-      if (localResponse.ok) {
-        const data = await localResponse.json();
-        setStory(data.choices[0].message.content);
-        setLoading(false);
-        return;
-      }
-    } catch (e) { /* Fallback to Gemini */ }
-
     if (!ai) {
       setStory("AI Storytelling is currently hibernating. Add a GEMINI_API_KEY to wake it up!");
       setLoading(false);
       return;
     }
     try {
-      const model = ai.getGenerativeModel({ model: "gemini-2.0-flash" });
+      const model = ai.getGenerativeModel({ model: "gemini-1.5-flash" });
       const response = await model.generateContent(prompt);
       
       const storyText = response.response.text() || "I'm listening and learning...";
@@ -64,7 +47,7 @@ export const SocialStoryGenerator = () => {
       // Generate Image
       setImageLoading(true);
       const imgPrompt = `A warm, soft, friendly child-book style illustration for a social story about: ${topic}. Hand-drawn aesthetic, high contrast, non-threatening characters.`;
-      const imgModel = ai.getGenerativeModel({ model: "gemini-2.0-flash" });
+      const imgModel = ai.getGenerativeModel({ model: "gemini-1.5-flash" });
       const imgResponse = await imgModel.generateContent(imgPrompt);
       
       try {
@@ -89,9 +72,9 @@ export const SocialStoryGenerator = () => {
 
   return (
     <div className="space-y-10 text-white">
-      <div className="bg-white/5 p-12 rounded-[48px] border border-white/5 shadow-2xl relative overflow-hidden">
-        <h3 className="text-4xl font-black mb-4">Story Architect</h3>
-        <p className="text-white/40 font-bold mb-12 max-w-xl leading-relaxed text-sm">
+      <div className="bg-white/5 p-5 lg:p-12 rounded-[24px] lg:rounded-[48px] border border-white/5 shadow-2xl relative overflow-hidden">
+        <h3 className="text-2xl lg:text-4xl font-black mb-4">Story Architect</h3>
+        <p className="text-white/40 font-bold mb-8 lg:mb-12 max-w-xl leading-relaxed text-[10px] lg:text-sm">
           Transform challenging transitions into safe narratives. AI-powered, parent-approved clinical logic.
         </p>
 
@@ -101,15 +84,15 @@ export const SocialStoryGenerator = () => {
               value={topic}
               onChange={(e) => setTopic(e.target.value)}
               placeholder="e.g., Going to the dentist, Loud fire drills..."
-              className="w-full bg-white/5 border border-white/10 rounded-2xl px-8 py-5 text-lg font-bold focus:outline-none focus:border-curamind-green transition-all placeholder:text-white/20"
+              className="w-full bg-white/5 border border-white/10 rounded-xl lg:rounded-2xl px-6 lg:px-8 py-4 lg:py-5 text-sm lg:text-lg font-bold focus:outline-none focus:border-curamind-green transition-all placeholder:text-white/20"
             />
           </div>
           <button 
             onClick={generateStory}
             disabled={loading || !topic.trim()}
-            className="px-10 py-5 bg-curamind-green text-white rounded-2xl font-black uppercase tracking-widest flex items-center justify-center gap-3 shadow-xl shadow-curamind-green/20 hover:scale-105 active:scale-95 transition-all disabled:opacity-50"
+            className="px-6 lg:px-10 py-4 lg:py-5 bg-curamind-green text-white rounded-xl lg:rounded-2xl font-black uppercase tracking-widest flex items-center justify-center gap-3 shadow-xl shadow-curamind-green/20 hover:scale-105 active:scale-95 transition-all disabled:opacity-50 text-[10px] lg:text-xs"
           >
-            {loading ? "Crafting..." : <><FileText className="w-5 h-5" /> Generate</>}
+            {loading ? "Crafting..." : <><FileText className="w-4 h-4 lg:w-5 lg:h-5" /> Generate</>}
           </button>
         </div>
       </div>
@@ -121,7 +104,7 @@ export const SocialStoryGenerator = () => {
             animate={{ opacity: 1, y: 0 }}
             className="grid grid-cols-1 lg:grid-cols-5 gap-10"
           >
-            <div className="lg:col-span-3 bg-[#0A0A0A] p-12 rounded-[48px] border border-white/5 shadow-2xl space-y-10">
+            <div className="lg:col-span-3 bg-[#0A0A0A] p-5 lg:p-12 rounded-[24px] lg:rounded-[48px] border border-white/5 shadow-2xl space-y-8 lg:space-y-10">
               <div className="flex justify-between items-center pb-8 border-b border-white/5">
                  <div className="flex items-center gap-4">
                     <div className="w-12 h-12 rounded-2xl bg-curamind-green/20 flex items-center justify-center text-curamind-green">
@@ -158,7 +141,7 @@ export const SocialStoryGenerator = () => {
                   )}
                </div>
                
-               <div className="p-10 bg-curamind-yellow/10 border border-curamind-yellow/20 rounded-[40px] text-curamind-yellow">
+                               <div className="p-6 lg:p-10 bg-curamind-yellow/10 border border-curamind-yellow/20 rounded-[32px] lg:rounded-[40px] text-curamind-yellow">
                   <h4 className="text-[10px] font-black uppercase tracking-widest mb-4 flex items-center gap-2">
                     Clinical Guidance
                   </h4>

@@ -38,9 +38,16 @@ export default function App() {
   const [userRole, setUserRole] = useState<string | null>(null);
   const [childData, setChildData] = useState<any>(null);
   const [currentView, setCurrentView] = useState<View>('dashboard');
-  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false); // Hidden by default on mobile
   const [incomingNotes, setIncomingNotes] = useState<any[]>([]);
   const [activeAlert, setActiveAlert] = useState<any>(null);
+
+  // Auto-open sidebar on desktop
+  useEffect(() => {
+    if (window.innerWidth >= 1024) {
+      setIsSidebarOpen(true);
+    }
+  }, []);
 
   useEffect(() => {
     async function initPlatform() {
@@ -87,24 +94,36 @@ export default function App() {
 
   // If user is verified but has no password yet, force password setup
   if (user.hasPassword === false) {
-    return <SetPassword onComplete={() => window.location.reload()} />;
+    return <SetPassword onComplete={() => window.location.reload()} onLogout={logout} />;
   }
 
   const renderParentDashboard = () => (
-    <div className="flex min-h-screen bg-curamind-void">
+    <div className="flex min-h-screen bg-curamind-void overflow-hidden">
+      {/* Sidebar Overlay for Mobile */}
+      <AnimatePresence>
+        {isSidebarOpen && (
+          <motion.div 
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={() => setIsSidebarOpen(false)}
+            className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[60] lg:hidden"
+          />
+        )}
+      </AnimatePresence>
+
       {/* Sidebar */}
-      <aside className={`fixed lg:static inset-y-0 left-0 z-50 w-72 bg-curamind-void border-r border-white/5 p-8 flex flex-col transition-transform ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}`}>
-        <div className="flex items-center gap-4 mb-12">
-          <div className="w-12 h-12 rounded-2xl bg-curamind-green flex items-center justify-center shadow-lg shadow-curamind-green/30 group relative">
-            <Stethoscope className="text-white w-7 h-7" />
-            <button 
-              onClick={logout}
-              className="absolute -top-2 -right-2 w-6 h-6 bg-red-400 text-white rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"
-            >
-              ×
-            </button>
+      <aside className={`fixed inset-y-0 left-0 z-[70] w-[85vw] lg:w-72 bg-curamind-void border-r border-white/5 p-6 lg:p-8 flex flex-col transition-transform duration-300 ease-in-out shadow-2xl lg:shadow-none ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'} lg:static lg:translate-x-0`}>
+        <div className="flex items-center justify-between mb-12">
+          <div className="flex items-center gap-4">
+            <div className="w-10 h-10 lg:w-12 lg:h-12 rounded-xl lg:rounded-2xl bg-curamind-green flex items-center justify-center shadow-lg shadow-curamind-green/30 group relative">
+              <Stethoscope className="text-white w-6 h-6 lg:w-7 lg:h-7" />
+            </div>
+            <h1 className="text-xl lg:text-2xl font-sora font-extrabold tracking-tight text-curamind-text">curamind</h1>
           </div>
-          <h1 className="text-2xl font-sora font-extrabold tracking-tight text-curamind-text">curamind</h1>
+          <button onClick={() => setIsSidebarOpen(false)} className="lg:hidden p-2 text-curamind-muted hover:text-white transition-colors">
+            <X className="w-6 h-6" />
+          </button>
         </div>
 
         <nav className="flex-1 space-y-2 overflow-y-auto pr-2 custom-scrollbar">
@@ -119,7 +138,10 @@ export default function App() {
           ].map(item => (
             <button
               key={item.id}
-              onClick={() => setCurrentView(item.id as View)}
+              onClick={() => {
+                setCurrentView(item.id as View);
+                if (window.innerWidth < 1024) setIsSidebarOpen(false);
+              }}
               className={`w-full flex items-center gap-4 px-5 py-3.5 rounded-2xl transition-all font-bold text-sm ${currentView === item.id ? 'bg-curamind-purple text-white shadow-xl translate-x-1' : 'text-curamind-muted hover:bg-curamind-faint/50'}`}
             >
               <item.icon className={`w-5 h-5 ${currentView === item.id ? 'text-white' : 'text-curamind-purple/60'}`} />
@@ -142,11 +164,38 @@ export default function App() {
           <button onClick={logout} className="w-full flex items-center gap-3 px-5 py-3 rounded-2xl text-curamind-coral hover:bg-curamind-coral/5 transition-all font-bold text-sm">
             <LogOut className="w-4 h-4" /> Sign Out
           </button>
+
+          {/* Connection Status */}
+          <div className="mt-4 px-5 py-3 bg-white/5 rounded-2xl border border-white/5 flex items-center gap-3">
+             <div className={`w-2 h-2 rounded-full animate-pulse ${loading ? 'bg-curamind-yellow' : 'bg-curamind-coral'}`} />
+             <div className="flex flex-col">
+                <span className="text-[9px] font-black uppercase tracking-widest text-white/40 leading-none">Supabase Status</span>
+                <span className="text-[10px] font-bold text-curamind-coral leading-tight">Service Interruption (503)</span>
+             </div>
+          </div>
         </div>
       </aside>
 
-      {/* Main Content */}
-      <main className="flex-1 p-8 lg:p-14 overflow-x-hidden max-h-screen overflow-y-auto relative bg-curamind-void">
+      {/* Main Content Area */}
+      <div className="flex-1 flex flex-col min-w-0">
+        {/* Mobile Header */}
+        <header className="lg:hidden flex items-center justify-between px-6 py-4 bg-curamind-void border-b border-white/5 sticky top-0 z-40">
+          <div className="flex items-center gap-3">
+             <div className="w-8 h-8 rounded-lg bg-curamind-green flex items-center justify-center shadow-lg">
+                <Stethoscope className="text-white w-5 h-5" />
+             </div>
+             <span className="text-lg font-sora font-extrabold text-white">curamind</span>
+          </div>
+          <button 
+            onClick={() => setIsSidebarOpen(true)}
+            className="p-2 bg-white/5 rounded-xl text-white hover:bg-white/10 transition-all"
+          >
+            <Menu className="w-6 h-6" />
+          </button>
+        </header>
+
+        {/* Main Scrolling Content */}
+        <main className="flex-1 p-4 lg:p-14 overflow-x-hidden overflow-y-auto relative bg-curamind-void">
         {/* SOS OVERLAY ALERT */}
         <AnimatePresence>
           {activeAlert && (
@@ -393,31 +442,32 @@ export default function App() {
           )}
         </AnimatePresence>
       </main>
+      </div>
     </div>
   );
 
   const renderTherapistPortal = () => (
     <div className="bg-curamind-void min-h-screen text-white font-sans">
-       <header className="px-10 py-6 bg-white/[0.02] border-b border-white/5 flex items-center justify-between shadow-2xl sticky top-0 z-50 backdrop-blur-xl">
-          <div className="flex items-center gap-6">
-             <div className="w-14 h-14 rounded-2xl bg-curamind-teal flex items-center justify-center shadow-lg shadow-curamind-teal/20">
-                <Shield className="w-8 h-8 text-white" />
+       <header className="px-6 py-4 lg:px-10 lg:py-6 bg-white/[0.02] border-b border-white/5 flex items-center justify-between shadow-2xl sticky top-0 z-50 backdrop-blur-xl">
+          <div className="flex items-center gap-4 lg:gap-6">
+             <div className="w-10 h-10 lg:w-14 lg:h-14 rounded-xl lg:rounded-2xl bg-curamind-teal flex items-center justify-center shadow-lg shadow-curamind-teal/20">
+                <Shield className="w-6 h-6 lg:w-8 lg:h-8 text-white" />
              </div>
              <div>
-               <h2 className="text-2xl font-sora font-extrabold tracking-tight">Clinical Workspace</h2>
-               <div className="text-[10px] text-curamind-muted font-bold uppercase tracking-[0.2em]">{user?.displayName} · Clinical Lead</div>
+               <h2 className="text-lg lg:text-2xl font-sora font-extrabold tracking-tight">Clinical Workspace</h2>
+               <div className="text-[9px] lg:text-[10px] text-curamind-muted font-bold uppercase tracking-[0.2em]">{user?.displayName} · Clinical Lead</div>
              </div>
           </div>
-          <button onClick={logout} className="text-xs font-bold text-curamind-coral bg-curamind-coral/5 px-6 py-3 rounded-xl border border-curamind-coral/20 hover:bg-curamind-coral/10 transition-all uppercase tracking-widest outline-none">
+          <button onClick={logout} className="text-[10px] lg:text-xs font-bold text-curamind-coral bg-curamind-coral/5 px-4 py-2 lg:px-6 lg:py-3 rounded-xl border border-curamind-coral/20 hover:bg-curamind-coral/10 transition-all uppercase tracking-widest outline-none">
              Sign Out
           </button>
        </header>
 
-       <main className="p-10 max-w-7xl mx-auto space-y-12">
+               <main className="p-4 lg:p-10 max-w-7xl mx-auto space-y-12">
           {childData ? (
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-10">
-              <div className="lg:col-span-2 space-y-10">
-                <section className="bg-white/[0.03] p-12 rounded-[48px] border border-white/10 organic-shadow relative overflow-hidden">
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 lg:gap-10">
+              <div className="lg:col-span-2 space-y-8 lg:space-y-10">
+                                <section className="bg-white/[0.03] p-5 lg:p-12 rounded-[24px] lg:rounded-[48px] border border-white/10 organic-shadow relative overflow-hidden">
                    <div className="flex items-center justify-between mb-8 relative z-10">
                       <div>
                         <h3 className="text-3xl font-sora font-extrabold">{childData.name} — Live Insight</h3>
@@ -441,11 +491,6 @@ export default function App() {
                                 <span className="text-[10px] font-bold uppercase text-curamind-muted">{note.author_name}</span>
                               </div>
                               <p className="text-sm font-bold text-curamind-text mb-4 italic">"{note.content}"</p>
-                              {note.recommendations && (
-                                <div className="p-3 bg-white rounded-xl text-[11px] font-medium text-curamind-purple">
-                                  <Sparkles className="w-3 h-3 inline mr-1" /> Recommendation: {note.recommendations}
-                                </div>
-                              )}
                             </div>
                             <div className="mt-4 text-[9px] font-bold text-curamind-muted/50 uppercase tracking-tighter">
                               {new Date(note.created_at).toLocaleString()}
@@ -490,7 +535,7 @@ export default function App() {
   );
 
   const renderTeacherView = () => (
-    <div className="bg-curamind-void min-h-screen p-10 flex flex-col items-center gap-12 font-sans text-white">
+        <div className="bg-curamind-void min-h-screen p-4 lg:p-10 flex flex-col items-center gap-8 lg:gap-12 font-sans text-white">
        <div className="max-w-3xl w-full">
          <div className="flex items-center justify-between mb-8">
             <div className="flex items-center gap-4">
@@ -502,13 +547,13 @@ export default function App() {
             <button onClick={logout} className="text-xs font-bold text-white/60 hover:text-white uppercase tracking-widest">Sign Out</button>
          </div>
 
-         {childData ? (
-           <div className="bg-white/[0.03] rounded-[48px] overflow-hidden border border-white/10 organic-shadow">
-              <header className="bg-curamind-gold/20 p-12 border-b border-white/10">
-                 <h2 className="text-4xl font-sora font-extrabold tracking-tight">{childData.name}</h2>
-                 <p className="text-white/80 font-bold mt-2 uppercase tracking-widest text-xs">Assigned Student Profile</p>
-              </header>
-              <div className="p-12 space-y-12">
+          {childData ? (
+            <div className="bg-white/[0.03] rounded-[32px] lg:rounded-[48px] overflow-hidden border border-white/10 organic-shadow">
+               <header className="bg-curamind-gold/20 p-8 lg:p-12 border-b border-white/10">
+                  <h2 className="text-3xl lg:text-4xl font-sora font-extrabold tracking-tight">{childData.name}</h2>
+                  <p className="text-white/80 font-bold mt-2 uppercase tracking-widest text-[10px] lg:text-xs">Assigned Student Profile</p>
+               </header>
+               <div className="p-8 lg:p-12 space-y-10 lg:space-y-12">
                  <section className="space-y-6">
                     <h3 className="text-xl font-bold text-curamind-text flex items-center gap-3">
                       <Activity className="text-curamind-coral" /> Active Sensory Protocol
@@ -546,12 +591,12 @@ export default function App() {
                  </section>
               </div>
            </div>
-         ) : (
-            <div className="bg-white/10 backdrop-blur-md p-20 rounded-[48px] text-center text-white space-y-4">
-               <h3 className="text-2xl font-bold">Waiting for Student Connection</h3>
-               <p className="opacity-60 text-sm max-w-sm mx-auto">Please ask the parent to add you to their care circle using your email.</p>
-            </div>
-         )}
+          ) : (
+             <div className="bg-white/10 backdrop-blur-md p-20 rounded-[48px] text-center text-white space-y-4">
+                <h3 className="text-2xl font-bold">Waiting for Student Connection</h3>
+                <p className="opacity-60 text-sm max-w-sm mx-auto">Please ask the parent to add you to their care circle using your email.</p>
+             </div>
+          )}
        </div>
     </div>
   );

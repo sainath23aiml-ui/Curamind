@@ -45,35 +45,37 @@ export const BehavioralHeatmap = () => {
         </div>
       </div>
 
-      <div className="grid grid-cols-[auto_1fr] gap-4">
-        <div className="flex flex-col justify-between py-2 text-[10px] text-curamind-muted font-bold h-[200px] uppercase">
-          {DAYS.map(day => <div key={day}>{day}</div>)}
-        </div>
+      <div className="overflow-x-auto pb-4 hide-scrollbar">
+        <div className="grid grid-cols-[auto_1fr] gap-4 min-w-[500px] lg:min-w-0">
+          <div className="flex flex-col justify-between py-2 text-[10px] text-curamind-muted font-bold h-[200px] uppercase">
+            {DAYS.map(day => <div key={day}>{day}</div>)}
+          </div>
 
-        <motion.div 
-          variants={staggerContainer}
-          initial="hidden"
-          animate="visible"
-          className="grid grid-cols-8 grid-rows-7 gap-3 h-[200px]"
-        >
-          {HEATMAP_DATA.map((row, dayIdx) => (
-            row.map((val, hourIdx) => (
-              <motion.div
-                key={`${dayIdx}-${hourIdx}`}
-                variants={fadeIn}
-                className={`rounded-lg ${getColor(val)} transition-all hover:ring-2 hover:ring-curamind-purple/20 cursor-help relative group`}
-              >
-                <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 p-2 bg-curamind-surface border border-white/10 rounded-lg text-[10px] font-bold whitespace-nowrap opacity-0 group-hover:opacity-100 pointer-events-none z-20 shadow-2xl text-white">
-                  {DAYS[dayIdx]} slots are {val > 5 ? 'active' : 'calm'}
-                </div>
-              </motion.div>
-            ))
-          ))}
-        </motion.div>
+          <motion.div 
+            variants={staggerContainer}
+            initial="hidden"
+            animate="visible"
+            className="grid grid-cols-8 grid-rows-7 gap-3 h-[200px]"
+          >
+            {HEATMAP_DATA.map((row, dayIdx) => (
+              row.map((val, hourIdx) => (
+                <motion.div
+                  key={`${dayIdx}-${hourIdx}`}
+                  variants={fadeIn}
+                  className={`rounded-lg ${getColor(val)} transition-all hover:ring-2 hover:ring-curamind-purple/20 cursor-help relative group`}
+                >
+                  <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 p-2 bg-curamind-surface border border-white/10 rounded-lg text-[10px] font-bold whitespace-nowrap opacity-0 group-hover:opacity-100 pointer-events-none z-20 shadow-2xl text-white">
+                    {DAYS[dayIdx]} slots are {val > 5 ? 'active' : 'calm'}
+                  </div>
+                </motion.div>
+              ))
+            ))}
+          </motion.div>
 
-        <div />
-        <div className="flex justify-between text-[10px] text-curamind-muted font-mono">
-          {HOURS.map(hour => <div key={hour}>{hour}</div>)}
+          <div />
+          <div className="flex justify-between text-[10px] text-curamind-muted font-mono">
+            {HOURS.map(hour => <div key={hour}>{hour}</div>)}
+          </div>
         </div>
       </div>
       

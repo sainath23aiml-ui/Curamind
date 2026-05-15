@@ -43,13 +43,13 @@ export const SensoryBudget = () => {
       <div className="flex bg-white/5 p-2 rounded-3xl w-fit mx-auto border border-white/5 mb-8">
         <button 
           onClick={() => setActiveTab('budget')}
-          className={`px-10 py-4 rounded-2xl font-black text-xs uppercase tracking-widest transition-all ${activeTab === 'budget' ? 'bg-white text-[#050505] shadow-2xl' : 'text-white/40'}`}
+          className={`px-4 lg:px-10 py-3 lg:py-4 rounded-xl lg:rounded-2xl font-black text-[10px] lg:text-xs uppercase tracking-widest transition-all ${activeTab === 'budget' ? 'bg-white text-[#050505] shadow-2xl' : 'text-white/40'}`}
         >
           Daily Budget
         </button>
         <button 
           onClick={() => setActiveTab('forecast')}
-          className={`px-10 py-4 rounded-2xl font-black text-xs uppercase tracking-widest transition-all ${activeTab === 'forecast' ? 'bg-white text-[#050505] shadow-2xl' : 'text-white/40'}`}
+          className={`px-4 lg:px-10 py-3 lg:py-4 rounded-xl lg:rounded-2xl font-black text-[10px] lg:text-xs uppercase tracking-widest transition-all ${activeTab === 'forecast' ? 'bg-white text-[#050505] shadow-2xl' : 'text-white/40'}`}
         >
           Sensory Forecast
         </button>
@@ -64,15 +64,15 @@ export const SensoryBudget = () => {
             exit={{ opacity: 0, y: -20 }}
             className="grid grid-cols-1 lg:grid-cols-3 gap-10"
           >
-            <div className="lg:col-span-2 space-y-10">
-              <GlassCard className="p-12 relative overflow-hidden h-fit">
+            <div className="lg:col-span-2 space-y-8 lg:space-y-10">
+              <GlassCard className="p-6 lg:p-12 relative overflow-hidden h-fit">
                 <div className="flex justify-between items-center mb-12 relative z-10">
                    <div>
                       <h3 className="text-3xl font-black text-white">Sensory Energy</h3>
                       <p className="text-white/40 font-bold mt-2 uppercase tracking-widest text-[10px]">Monitoring internal load capacity.</p>
                    </div>
                    <div className="text-right">
-                      <div className="text-5xl font-black text-white">{maxBudget - totalUsed}</div>
+                      <div className="text-3xl lg:text-5xl font-black text-white">{maxBudget - totalUsed}</div>
                       <div className="text-[10px] font-black text-white/40 uppercase tracking-[0.2em] mt-1">Pts Remaining</div>
                    </div>
                 </div>
@@ -87,18 +87,18 @@ export const SensoryBudget = () => {
                    />
                 </div>
 
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-8">
-                   <div className="p-6 rounded-3xl bg-white/5 border border-white/5">
-                      <div className="text-[10px] uppercase font-black text-white/40 tracking-widest mb-2">Total Load</div>
-                      <div className="text-2xl font-black text-curamind-red">105 pts</div>
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 lg:gap-8">
+                   <div className="p-4 lg:p-6 rounded-3xl bg-white/5 border border-white/5">
+                      <div className="text-[9px] lg:text-[10px] uppercase font-black text-white/40 tracking-widest mb-2">Total Load</div>
+                      <div className="text-xl lg:text-2xl font-black text-curamind-red">105 pts</div>
                    </div>
-                   <div className="p-6 rounded-3xl bg-white/5 border border-white/5">
-                      <div className="text-[10px] uppercase font-black text-white/40 tracking-widest mb-2">Recovery</div>
-                      <div className="text-2xl font-black text-curamind-green">50 pts</div>
+                   <div className="p-4 lg:p-6 rounded-3xl bg-white/5 border border-white/5">
+                      <div className="text-[9px] lg:text-[10px] uppercase font-black text-white/40 tracking-widest mb-2">Recovery</div>
+                      <div className="text-xl lg:text-2xl font-black text-curamind-green">50 pts</div>
                    </div>
-                   <div className="p-6 rounded-3xl bg-white/5 border border-white/5">
-                      <div className="text-[10px] uppercase font-black text-white/40 tracking-widest mb-2">Critical Cap</div>
-                      <div className="text-2xl font-black text-white">200 pts</div>
+                   <div className="p-4 lg:p-6 rounded-3xl bg-white/5 border border-white/5">
+                      <div className="text-[9px] lg:text-[10px] uppercase font-black text-white/40 tracking-widest mb-2">Critical Cap</div>
+                      <div className="text-xl lg:text-2xl font-black text-white">200 pts</div>
                    </div>
                 </div>
               </GlassCard>
@@ -112,15 +112,15 @@ export const SensoryBudget = () => {
                         initial={{ opacity: 0, x: -10 }}
                         animate={{ opacity: 1, x: 0 }}
                         transition={{ delay: i * 0.1 }}
-                        className="group bg-white/5 p-6 rounded-[32px] border border-white/5 flex items-center justify-between hover:border-white/10 transition-all shadow-xl"
+                        className="group bg-white/5 p-4 lg:p-6 rounded-[24px] lg:rounded-[32px] border border-white/5 flex items-center justify-between hover:border-white/10 transition-all shadow-xl"
                       >
-                        <div className="flex items-center gap-6">
-                           <div className={`w-12 h-12 rounded-2xl flex items-center justify-center ${ev.type === 'load' ? 'bg-curamind-red/10 text-curamind-red' : 'bg-curamind-green/10 text-curamind-green'}`}>
-                              <ev.icon className="w-5 h-5" />
+                        <div className="flex items-center gap-4 lg:gap-6">
+                           <div className={`w-10 h-10 lg:w-12 lg:h-12 rounded-xl lg:rounded-2xl flex items-center justify-center ${ev.type === 'load' ? 'bg-curamind-red/10 text-curamind-red' : 'bg-curamind-green/10 text-curamind-green'}`}>
+                              <ev.icon className="w-4 h-4 lg:w-5 lg:h-5" />
                            </div>
                            <div>
-                              <div className="text-base font-black text-white">{ev.label}</div>
-                              <div className="text-[10px] font-black text-white/20 uppercase tracking-widest">{ev.time}</div>
+                              <div className="text-sm lg:text-base font-black text-white">{ev.label}</div>
+                              <div className="text-[8px] lg:text-[10px] font-black text-white/20 uppercase tracking-widest">{ev.time}</div>
                            </div>
                         </div>
                         <div className="flex items-center gap-8">

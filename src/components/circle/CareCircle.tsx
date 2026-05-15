@@ -19,26 +19,26 @@ export const CareCircle = () => {
     <div className="space-y-12 pb-24">
       <div className="flex flex-col xl:flex-row justify-between items-start xl:items-center gap-6">
          <div>
-            <h3 className="text-3xl font-bold text-curamind-text">The Care Circle</h3>
-            <p className="text-curamind-muted font-medium mt-1">Everyone connected for support.</p>
+                         <h3 className="text-2xl lg:text-3xl font-bold text-curamind-text">The Care Circle</h3>
+                         <p className="text-sm lg:text-base text-curamind-muted font-medium mt-1">Everyone connected for support.</p>
          </div>
-         <div className="flex flex-wrap gap-4 w-full xl:w-auto">
-           <button 
-             onClick={() => setShowSignalModal(true)}
-             className="flex-1 xl:flex-none px-6 py-4 bg-curamind-coral text-white rounded-2xl font-extrabold flex items-center justify-center gap-3 shadow-xl shadow-curamind-coral/30 hover:scale-[1.02] active:scale-95 transition-all"
-           >
-              <Siren className="w-5 h-5 animate-pulse" /> Care Signal
-           </button>
-           <button 
-             onClick={() => setShowNoteCreator(true)}
-             className="flex-1 xl:flex-none px-6 py-4 bg-white border-2 border-curamind-purple/20 text-curamind-purple rounded-2xl font-extrabold flex items-center justify-center gap-3 transition-all hover:border-curamind-purple active:scale-95"
-           >
-              <FileText className="w-5 h-5" /> Share Note
-           </button>
-           <button className="flex-1 xl:flex-none px-6 py-4 bg-curamind-purple text-white rounded-2xl font-extrabold flex items-center justify-center gap-3 shadow-xl shadow-curamind-purple/20 hover:scale-[1.02] active:scale-95 transition-all">
-              <Plus className="w-5 h-5" /> Invite
-           </button>
-         </div>
+          <div className="flex flex-wrap gap-3 w-full xl:w-auto">
+            <button 
+              onClick={() => setShowSignalModal(true)}
+              className="flex-1 lg:flex-none px-5 py-3 lg:px-6 lg:py-4 bg-curamind-coral text-white rounded-2xl font-extrabold flex items-center justify-center gap-2 lg:gap-3 shadow-xl shadow-curamind-coral/30 hover:scale-[1.02] active:scale-95 transition-all text-xs lg:text-base"
+            >
+               <Siren className="w-4 h-4 lg:w-5 lg:h-5 animate-pulse" /> Care Signal
+            </button>
+            <button 
+              onClick={() => setShowNoteCreator(true)}
+              className="flex-1 lg:flex-none px-5 py-3 lg:px-6 lg:py-4 bg-white border-2 border-curamind-purple/20 text-curamind-purple rounded-2xl font-extrabold flex items-center justify-center gap-2 lg:gap-3 transition-all hover:border-curamind-purple active:scale-95 text-xs lg:text-base"
+            >
+               <FileText className="w-4 h-4 lg:w-5 lg:h-5" /> Share Note
+            </button>
+            <button className="flex-1 lg:flex-none px-5 py-3 lg:px-6 lg:py-4 bg-curamind-purple text-white rounded-2xl font-extrabold flex items-center justify-center gap-2 lg:gap-3 shadow-xl shadow-curamind-purple/20 hover:scale-[1.02] active:scale-95 transition-all text-xs lg:text-base">
+               <Plus className="w-4 h-4 lg:w-5 lg:h-5" /> Invite
+            </button>
+          </div>
       </div>
 
       <SignalModal isOpen={showSignalModal} onClose={() => setShowSignalModal(false)} childId="default-child" />
@@ -56,9 +56,9 @@ export const CareCircle = () => {
         )}
       </AnimatePresence>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8">
         {members.map((member, i) => (
-          <GlassCard key={i} className="text-center group p-10 flex flex-col items-center">
+          <GlassCard key={i} className="text-center group p-8 lg:p-10 flex flex-col items-center">
             <div className="relative mb-6">
               <div className="w-24 h-24 rounded-[40px] bg-curamind-faint flex items-center justify-center border-4 border-white shadow-lg overflow-hidden group-hover:scale-105 transition-transform">
                 <User className="w-10 h-10 text-curamind-muted" />
@@ -86,9 +86,9 @@ export const CareCircle = () => {
         ))}
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
-        <div className="bg-white/5 p-12 rounded-[48px] border border-white/10 text-white relative overflow-hidden">
-          <h4 className="text-2xl font-bold mb-6 flex items-center gap-3">
+       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-10">
+        <div className="bg-white/5 p-6 lg:p-12 rounded-[32px] lg:rounded-[48px] border border-white/10 text-white relative overflow-hidden">
+          <h4 className="text-xl lg:text-2xl font-bold mb-6 flex items-center gap-3">
              <Activity className="w-6 h-6 text-curamind-green" /> 
              Collaborative Pulse
           </h4>
@@ -98,7 +98,7 @@ export const CareCircle = () => {
                { user: "Dr. Meera", action: "Refined Sleep Protocol for Arjun", time: "5h ago" },
                { user: "Meena", action: "Logged Meltdown Event (Resolved)", time: "Yesterday" }
              ].map((activity, i) => (
-               <div key={i} className="flex gap-4 p-5 bg-white/10 rounded-[32px] border border-white/10 text-sm">
+               <div key={i} className="flex gap-4 p-4 lg:p-5 bg-white/10 rounded-[24px] lg:rounded-[32px] border border-white/10 text-xs lg:text-sm">
                   <div className="w-10 h-10 rounded-2xl bg-white/20 flex items-center justify-center flex-shrink-0 text-xs font-bold">
                     {activity.user[0]}
                   </div>
@@ -109,10 +109,10 @@ export const CareCircle = () => {
                </div>
              ))}
           </div>
-        </div>
-
-        <div className="bg-white/5 p-12 rounded-[48px] border border-white/10">
-          <h4 className="text-2xl font-bold mb-8 flex items-center gap-3 text-white">
+         </div>
+ 
+        <div className="bg-white/5 p-6 lg:p-12 rounded-[32px] lg:rounded-[48px] border border-white/10">
+          <h4 className="text-xl lg:text-2xl font-bold mb-8 flex items-center gap-3 text-white">
              <Activity className="w-6 h-6 text-curamind-yellow" /> Shared Goals
           </h4>
           <div className="space-y-8">

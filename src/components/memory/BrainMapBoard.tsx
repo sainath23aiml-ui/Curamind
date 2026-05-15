@@ -120,7 +120,7 @@ export const BrainMapBoard = ({ childId }: { childId: string }) => {
     }
     try {
       const mapData = nodes.map(n => `${n.type}: ${n.data.label}`).join(', ');
-      const model = ai.getGenerativeModel({ model: "gemini-2.0-flash" });
+      const model = ai.getGenerativeModel({ model: "gemini-1.5-flash" });
       const response = await model.generateContent(`Based on these sensory map connections: [${mapData}], provide 3 brief clinical insights for parents.`);
       setAnalysis(response.response.text());
     } finally {
@@ -133,7 +133,7 @@ export const BrainMapBoard = ({ childId }: { childId: string }) => {
     setIsGeneratingMap(true);
     try {
       const prompt = `Based on: "${scenario}", identify sensory triggers, solutions, and people. Return JSON: [{"type": "trigger"|"intervention"|"person", "label": "name"}]`;
-      const model = ai.getGenerativeModel({ model: "gemini-2.0-flash" });
+      const model = ai.getGenerativeModel({ model: "gemini-1.5-flash" });
       const response = await model.generateContent(prompt);
       const text = response.response.text();
       const elements = JSON.parse(text.replace(/```json|```/g, '').trim());

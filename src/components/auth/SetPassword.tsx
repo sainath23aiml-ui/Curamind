@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { motion } from 'motion/react';
-import { Shield, ArrowRight, CheckCircle2 } from 'lucide-react';
+import { Shield, ArrowRight, CheckCircle2, LogOut } from 'lucide-react';
 import { supabase } from '@/lib/supabase';
 
-export const SetPassword: React.FC<{ onComplete: () => void }> = ({ onComplete }) => {
+export const SetPassword: React.FC<{ onComplete: () => void; onLogout: () => void }> = ({ onComplete, onLogout }) => {
   const [password, setPassword] = useState('');
   const [confirm, setConfirm] = useState('');
   const [loading, setLoading] = useState(false);
@@ -96,6 +96,14 @@ export const SetPassword: React.FC<{ onComplete: () => void }> = ({ onComplete }
           >
             {loading ? "Saving..." : "Set Password"}
             <ArrowRight className="w-5 h-5" />
+          </button>
+
+          <button
+            type="button"
+            onClick={onLogout}
+            className="w-full py-4 text-xs font-bold text-white/40 hover:text-white flex items-center justify-center gap-2 transition-colors"
+          >
+            <LogOut className="w-4 h-4" /> Sign Out
           </button>
         </form>
       </motion.div>

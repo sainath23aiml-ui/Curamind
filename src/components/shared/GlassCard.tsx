@@ -59,7 +59,7 @@ export const GlassCard: React.FC<GlassCardProps> = ({
       }}
       transition={{ type: 'spring', stiffness: 300, damping: 30 }}
       className={cn(
-        "relative overflow-hidden bg-curamind-surface/40 border border-white/10 rounded-[40px] p-8 transition-all duration-500",
+        "relative overflow-hidden bg-curamind-surface/40 border border-white/10 rounded-[32px] lg:rounded-[40px] p-6 lg:p-8 transition-all duration-500",
         className
       )}
       style={{ transformStyle: 'preserve-3d' }}

@@ -35,7 +35,7 @@ export const StatCard: React.FC<StatCardProps> = ({
   
   return (
     <div className={cn(
-      "relative overflow-hidden bg-curamind-surface/40 border border-white/10 rounded-[32px] p-8 transition-all duration-500 hover:scale-[1.03] group",
+      "relative overflow-hidden bg-curamind-surface/40 border border-white/10 rounded-[24px] lg:rounded-[32px] p-5 lg:p-8 transition-all duration-500 hover:scale-[1.03] group",
       className
     )}>
       <div className="absolute top-0 right-0 w-24 h-24 bg-gradient-to-br from-curamind-rim/20 to-transparent rounded-bl-[60px] -z-0 opacity-0 group-hover:opacity-100 transition-opacity" />

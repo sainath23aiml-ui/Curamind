@@ -55,37 +55,9 @@ export async function chatWithCuraMind(message: string, history: any[] = [], cus
     return "I'm currently in 'Offline Mode' because my AI core is waiting for an API Key. Please let the developer know!";
   }
   try {
-    // 1. Try Local LM Studio Server (Gemma 3)
-    try {
-      const localResponse = await fetch("http://127.0.0.1:1234/v1/chat/completions", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          model: "google/gemma-3-12b", // Use the exact name from your screenshot
-          messages: [
-            { role: "user", content: `System Instructions: ${customSystemInstruction || CURAMIND_SYSTEM_INSTRUCTION}` },
-            ...history.map(h => ({ 
-              role: h.role === 'model' ? 'assistant' : 'user', 
-              content: h.parts?.[0]?.text || "" 
-            })).filter(m => m.content), 
-            { role: "user", content: message }
-          ],
-          temperature: 0.7
-        })
-      });
-      
-      if (localResponse.ok) {
-        const data = await localResponse.json();
-        console.log("Using Local Gemma 3 Core");
-        return data.choices[0].message.content;
-      }
-    } catch (e) {
-      console.log("Local server not found, falling back to Gemini 2.0 Cloud...");
-    }
-
-    // 2. Original Gemini 2.0 Flash Cloud Logic
+    // Original Gemini 1.5 Flash Cloud Logic
     const model = ai.getGenerativeModel({ 
-      model: "gemini-2.0-flash",
+      model: "gemini-1.5-flash",
       systemInstruction: customSystemInstruction || CURAMIND_SYSTEM_INSTRUCTION,
     });
     
@@ -100,6 +72,6 @@ export async function chatWithCuraMind(message: string, history: any[] = [], cus
   } catch (error: any) {
     console.error("CuraMind AI Error:", error);
     const msg = error?.message || "connection issues";
-    return `I'm having a bit of trouble connecting to Gemini 2.0 (${msg}). Please ensure your API key has 2.0 Flash enabled in AI Studio.`;
+    return `I'm having a bit of trouble connecting to Gemini 1.5 (${msg}). Please ensure your API key has 1.5 Flash enabled in AI Studio.`;
   }
 }
