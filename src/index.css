@@ -1,0 +1,87 @@
+@import url('https://fonts.googleapis.com/css2?family=Sora:wght@300;700;800&family=DM+Sans:wght@400;500&family=JetBrains+Mono:wght@400;500&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --color-curamind-void: #080908;
+  --color-curamind-depth: #0D100D;
+  --color-curamind-surface: #141814;
+  --color-curamind-rim: #242924;
+  
+  --color-curamind-green: #22C55E;
+  --color-curamind-red: #EF4444;
+  --color-curamind-yellow: #EAB308;
+  --color-curamind-orange: #F97316;
+  
+  /* Aliases for legacy components */
+  --color-curamind-purple: #22C55E;
+  --color-curamind-teal: #EAB308;
+  --color-curamind-coral: #EF4444;
+  --color-curamind-gold: #F97316;
+  
+  /* Helper variants */
+  --color-curamind-green-faint: #064E3B;
+  --color-curamind-red-faint: #450A0A;
+  --color-curamind-yellow-faint: #422006;
+  --color-curamind-orange-faint: #431407;
+
+  --color-curamind-text: #FFFFFF;
+  --color-curamind-muted: #A1A1AA;
+  --color-curamind-faint: #141814;
+
+  --font-sora: "Sora", sans-serif;
+  --font-sans: "DM Sans", sans-serif;
+  --font-mono: "JetBrains Mono", monospace;
+}
+
+@layer base {
+  body {
+    @apply bg-curamind-void text-white font-sans antialiased selection:bg-curamind-green/30 selection:text-white;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-sora font-semibold tracking-tight text-white;
+  }
+}
+
+@layer utilities {
+  .glass {
+    @apply bg-curamind-surface/60 border border-white/5 backdrop-blur-3xl shadow-2xl;
+  }
+  
+  .text-gradient-green {
+    @apply bg-clip-text text-transparent bg-gradient-to-br from-curamind-green via-white to-curamind-yellow;
+  }
+
+  .organic-shadow {
+    box-shadow: 
+      0 40px 100px -20px rgba(0, 0, 0, 0.7),
+      0 10px 30px -5px rgba(0, 0, 0, 0.5);
+  }
+
+  .hide-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .hide-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+}
+
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+
+@keyframes float {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-20px); }
+  100% { transform: translateY(0px); }
+}
+
+.animate-pulse-slow {
+  animation: pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: .7; transform: scale(1.05); }
+}
